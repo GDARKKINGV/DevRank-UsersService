@@ -5,7 +5,7 @@ import fileUpload from "express-fileupload";
 
 const router = Router();
 
-router.get("/profile", authRequired, profile).patch(
+router.get("/:userId", authRequired, profile).patch(
   "/update",
   authRequired,
   fileUpload({

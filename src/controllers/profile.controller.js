@@ -4,7 +4,9 @@ import fs from "fs-extra";
 
 export const profile = async (req, res) => {
   try {
-    const devFound = await Developer.findById(req.dev.id);
+    const { userId } = req.params;
+
+    const devFound = await Developer.findById(userId);
 
     if (!devFound) return res.status(400).json({ message: "User not found" });
 
@@ -22,9 +24,6 @@ export const profile = async (req, res) => {
       education: devFound.education,
       skills: devFound.skills,
       socialLinks: devFound.socialLinks,
-      createdAt: devFound.createdAt,
-      updatedAt: devFound.updatedAt,
-      token: token,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -53,8 +52,6 @@ export const updateProfile = async (req, res) => {
       new: true,
     });
 
-    console.log(devUpdated);
-
     if (!devUpdated) return res.status(400).json({ message: "User not found" });
 
     res.json({
@@ -75,7 +72,6 @@ export const updateProfile = async (req, res) => {
       updatedAt: devUpdated.updatedAt,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
